@@ -28,13 +28,16 @@
             upkgs = import nixpkgs-unstable { inherit system; };
         in
           pkgs.mkShell {
-            libraries = with pkgs; [ wayland-utils waylandpp ];
-            packages = with pkgs; [ rust-bin.stable.latest.default upkgs.rust-analyzer cargo cargo-make
-                                    pkg-config clippy ffmpeg-full wayland wayland-protocols
-                                    wayland-scanner pipewire llvmPackages.clangUseLLVM alsa-lib
-                                    egl-wayland pkgs.rustPlatform.bindgenHook libGL libtool automake
-                                    autoconf
-                                  ];
+            libraries = with pkgs; [ wayland-utils waylandpp ]; #pkgs.libxcb error: attribute 'libxcb' missing
+            packages = with pkgs; [
+              # pkgs.libxcb error: attribute 'libxcb' missing
+              rust-bin.stable.latest.default upkgs.rust-analyzer cargo cargo-make
+              pkg-config clippy ffmpeg-full wayland wayland-protocols
+              wayland-scanner pipewire llvmPackages.clangUseLLVM alsa-lib
+              egl-wayland pkgs.rustPlatform.bindgenHook libGL libtool automake
+              autoconf libgbm
+              xorg.libxcb
+            ];
           };
     };
 }
